@@ -75,6 +75,22 @@ services:
     depends_on:
       - redis
 
+  identity-service:
+    container_name: identity-service
+    build:
+      context: ./identity-service
+      dockerfile: Dockerfile
+    env_file:
+      - ./identity-service/.env.production
+    ports:
+      - 8581:80
+    networks:
+      - merdekalio-network
+    depends_on:
+      - mysql
+      - rabbitmq
+      - redis
+
 volumes:
   mysql-volume:
     driver: local
