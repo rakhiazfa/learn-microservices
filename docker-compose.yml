@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: p@ssw0rd
+    volumes:
+      - mysql-volume:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - merdekalio-network
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin:latest
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: p@ssw0rd
+    ports:
+      - 13306:80
+    networks:
+      - merdekalio-network
+    depends_on:
+      - mysql
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.13-management-alpine
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: administrator
+      RABBITMQ_DEFAULT_PASS: p@ssw0rd
+      RABBITMQ_DEFAULT_VHOST: /
+    volumes:
+      - rabbitmq-volume:/var/lib/rabbitmq
+      - ./.docker/rabbitmq/log:/var/log/rabbitmq
+    hostname: rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
+    networks:
+      - merdekalio-network
+
+volumes:
+  mysql-volume:
+  rabbitmq-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: D:\dev\projects\Merdekalio\.docker\rabbitmq\data
+
+networks:
+  merdekalio-network:
+    driver: bridge
