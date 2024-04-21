@@ -8,6 +8,7 @@
         "php": "^8.2",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
+        "php-amqplib/php-amqplib": "^3.6",
         "predis/predis": "^2.0"
     },
     "require-dev": {
