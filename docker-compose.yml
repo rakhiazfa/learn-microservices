@@ -39,7 +39,6 @@ services:
       RABBITMQ_DEFAULT_VHOST: /
     volumes:
       - rabbitmq-volume:/var/lib/rabbitmq
-      - ./.docker/rabbitmq/log:/var/log/rabbitmq
     hostname: rabbitmq
     ports:
       - 15672:15672
@@ -47,14 +46,42 @@ services:
     networks:
       - merdekalio-network
 
+  redis:
+    container_name: redis
+    image: redis:latest
+    command: redis-server --requirepass p@ssw0rd --bind 0.0.0.0
+    restart: always
+    volumes:
+      - redis-volume:/data
+    ports:
+      - 6379:6379
+    networks:
+      - merdekalio-network
+
+  redis-commander:
+    container_name: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=p@ssw0rd
+      - HTTP_USER=administrator
+      - HTTP_PASSWORD=p@ssw0rd
+    ports:
+      - 16379:8081
+    networks:
+      - merdekalio-network
+    depends_on:
+      - redis
+
 volumes:
   mysql-volume:
+    driver: local
   rabbitmq-volume:
     driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: D:\dev\projects\Merdekalio\.docker\rabbitmq\data
+  redis-volume:
+    driver: local
 
 networks:
   merdekalio-network:
