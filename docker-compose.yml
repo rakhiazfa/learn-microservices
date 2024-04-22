@@ -107,6 +107,19 @@ services:
       - rabbitmq
       - redis
 
+  api-gateway:
+    container_name: api-gateway
+    image: nginx:latest
+    volumes:
+      - ./api-gateway/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 8080:80
+    networks:
+      - merdekalio-network
+    depends_on:
+    - identity-service
+    - auth-service
+
 volumes:
   mysql-volume:
     driver: local
