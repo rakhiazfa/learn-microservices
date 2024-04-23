@@ -17,7 +17,7 @@ class UpdateIdentityRequest extends FormRequest
         $identityId = $this->route('id');
 
         return [
-            'registration_number' => ['required', Rule::unique('identities')->ignore($identityId)],
+            'registrationNumber' => ['required', Rule::unique('identities')->ignore($identityId)],
             'avatar' => ['nullable', 'mimes:png,jpg,jpeg,webp,gif'],
             'name' => ['required'],
             'placeOfBirth' => ['required'],

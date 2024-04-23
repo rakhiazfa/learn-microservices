@@ -14,7 +14,7 @@ class CreateIdentityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'registration_number' => ['required', 'unique:identities'],
+            'registrationNumber' => ['required', 'unique:identities'],
             'avatar' => ['nullable', 'mimes:png,jpg,jpeg,webp,gif'],
             'name' => ['required'],
             'placeOfBirth' => ['required'],
