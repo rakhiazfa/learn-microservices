@@ -91,22 +91,6 @@ services:
       - rabbitmq
       - redis
 
-  auth-service:
-    container_name: auth-service
-    build:
-      context: ./auth-service
-      dockerfile: Dockerfile
-    env_file:
-      - ./auth-service/.env.production
-    ports:
-      - 8582:3000
-    networks:
-      - merdekalio-network
-    depends_on:
-      - mysql
-      - rabbitmq
-      - redis
-
   api-gateway:
     container_name: api-gateway
     image: nginx:latest
@@ -118,7 +102,6 @@ services:
       - merdekalio-network
     depends_on:
     - identity-service
-    - auth-service
 
 volumes:
   mysql-volume:
