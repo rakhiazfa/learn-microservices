@@ -14,15 +14,15 @@ class CreateIdentityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'registrationNumber' => ['required', 'unique:identities'],
+            'registration_number' => ['required', 'unique:identities'],
             'avatar' => ['nullable', 'mimes:png,jpg,jpeg,webp,gif'],
             'name' => ['required'],
-            'placeOfBirth' => ['required'],
-            'dateOfBirth' => ['required', 'date'],
+            'place_of_birth' => ['required'],
+            'date_of_birth' => ['required', 'date'],
             'gender' => ['required'],
             'email' => ['required', 'email', 'unique:identities'],
             'password' => ['required', 'min:8', 'confirmed'],
-            'isActive' => ['nullable', 'boolean'],
+            'is_active' => ['nullable', 'boolean'],
         ];
     }
 }

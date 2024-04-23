@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -14,15 +15,15 @@ class Identity extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'registrationNumber',
+        'registration_number',
         'avatar',
         'name',
-        'placeOfBirth',
-        'dateOfBirth',
+        'place_of_birth',
+        'date_of_birth',
         'gender',
         'email',
         'password',
-        'isActive',
+        'is_active',
     ];
 
     /**
@@ -64,5 +65,10 @@ class Identity extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function personalAccessTokens(): HasMany
+    {
+        return $this->hasMany(PersonalAccessToken::class, 'identity_id');
     }
 }

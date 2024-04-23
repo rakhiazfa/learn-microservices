@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('identities', function (Blueprint $table) {
             $table->id();
-            $table->string('registrationNumber')->unique();
+            $table->string('registration_number')->unique();
             $table->string('avatar')->nullable();
             $table->string('name');
-            $table->string('placeOfBirth');
-            $table->date('dateOfBirth');
+            $table->string('place_of_birth');
+            $table->date('date_of_birth');
             $table->string('gender');
             $table->string('email')->unique();
             $table->string('password');
-            $table->boolean('isActive')->default(true);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

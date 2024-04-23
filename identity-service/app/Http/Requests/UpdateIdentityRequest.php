@@ -17,15 +17,15 @@ class UpdateIdentityRequest extends FormRequest
         $identityId = $this->route('id');
 
         return [
-            'registrationNumber' => ['required', Rule::unique('identities')->ignore($identityId)],
+            'registration_number' => ['required', Rule::unique('identities')->ignore($identityId)],
             'avatar' => ['nullable', 'mimes:png,jpg,jpeg,webp,gif'],
             'name' => ['required'],
-            'placeOfBirth' => ['required'],
-            'dateOfBirth' => ['required', 'date'],
+            'place_of_birth' => ['required'],
+            'date_of_birth' => ['required', 'date'],
             'gender' => ['required'],
             'email' => ['required', 'email', Rule::unique('identities')->ignore($identityId)],
             'password' => ['nullable', 'min:8', 'confirmed'],
-            'isActive' => ['nullable', 'boolean'],
+            'is_active' => ['nullable', 'boolean'],
         ];
     }
 }
