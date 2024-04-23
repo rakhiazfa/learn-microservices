@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('personal_access_tokens', function (Blueprint $table) {
             $table->id();
             $table->foreignId('identity_id')->nullable()->constrained('identities')->nullOnDelete();
-            $table->string('access_token', 625)->index();
+            $table->string('token', 625)->index();
             $table->string('ip_address')->nullable();
             $table->boolean('revoked')->default(false);
             $table->timestamps();

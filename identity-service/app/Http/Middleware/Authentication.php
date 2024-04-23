@@ -56,13 +56,13 @@ class Authentication implements AuthenticatesRequests
      */
     protected function authenticate(Request $request)
     {
-        $accessToken = $request->bearerToken();
-        $isValidAccessToken = PersonalAccessToken::where([
-            ['access_token', $accessToken],
+        $token = $request->bearerToken();
+        $personalAccessToken = PersonalAccessToken::where([
+            ['token', $token],
             ['revoked', false],
         ])->first();
 
-        if ($this->auth->guard('api')->check() && $isValidAccessToken) {
+        if ($this->auth->guard('api')->check() && $personalAccessToken) {
             return $this->auth->shouldUse('api');
         }
 

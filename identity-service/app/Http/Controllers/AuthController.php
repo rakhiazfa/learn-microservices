@@ -22,7 +22,7 @@ class AuthController extends Controller
 
         PersonalAccessToken::create([
             'identity_id' => $user->id,
-            'access_token' => $token,
+            'token' => $token,
             'ip_address' => $request->ip(),
         ]);
 
@@ -39,7 +39,7 @@ class AuthController extends Controller
     {
         $accessToken = $request->bearerToken();
 
-        PersonalAccessToken::where('access_token', $accessToken)->update(['revoked' => true]);
+        PersonalAccessToken::where('token', $accessToken)->update(['revoked' => true]);
 
         auth()->guard('api')->logout();
 

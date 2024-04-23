@@ -15,7 +15,7 @@ class PersonalAccessToken extends Model
      */
     protected $fillable = [
         'identity_id',
-        'access_token',
+        'token',
         'ip_address',
         'revoked',
     ];
