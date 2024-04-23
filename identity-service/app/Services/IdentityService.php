@@ -25,8 +25,8 @@ class IdentityService
         $identities = Identity::when($keyword, function ($query) use ($keyword) {
             $query->where('registration_number', 'LIKE', "%{$keyword}%")
                 ->orWhere('name', 'LIKE', "%{$keyword}%")
-                ->orWhere('placeOfBirth', 'LIKE', "%{$keyword}%")
-                ->orWhere('dateOfBirth', 'LIKE', "%{$keyword}%")
+                ->orWhere('place_of_birth', 'LIKE', "%{$keyword}%")
+                ->orWhere('date_of_birth', 'LIKE', "%{$keyword}%")
                 ->orWhere('gender', 'LIKE', "%{$keyword}%")
                 ->orWhere('email', 'LIKE', "%{$keyword}%");
         })->latest()->get();
