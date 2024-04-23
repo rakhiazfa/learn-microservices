@@ -82,8 +82,6 @@ services:
       dockerfile: Dockerfile
     env_file:
       - ./identity-service/.env.production
-    ports:
-      - 8581:80
     networks:
       - merdekalio-network
     depends_on:
