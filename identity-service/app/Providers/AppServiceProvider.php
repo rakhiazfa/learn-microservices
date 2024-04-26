@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\IdentityService;
 use App\Services\RabbitMQService;
+use App\Services\RoleService;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 
@@ -16,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(RabbitMQService::class);
         $this->app->singleton(IdentityService::class);
+        $this->app->singleton(RoleService::class);
     }
 
     /**

@@ -23,4 +23,12 @@ Route::middleware('authentication')->group(function () {
     Route::apiResource('/identities', IdentityController::class, [
         'parameters' => ['identities' => 'id'],
     ]);
+
+    /* --------------------------------------------------------------------------------------
+    | Roles
+    -------------------------------------------------------------------------------------- */
+
+    Route::apiResource('/roles', IdentityController::class, [
+        'parameters' => ['roles' => 'id'],
+    ]);
 });
