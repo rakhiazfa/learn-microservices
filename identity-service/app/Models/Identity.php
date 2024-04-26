@@ -41,7 +41,7 @@ class Identity extends Authenticatable implements JWTSubject
     protected function casts(): array
     {
         return [
-            'dateOfBirth' => 'date',
+            'date_of_birth' => 'date',
             'password' => 'hashed',
             'isActive' => 'boolean',
         ];
