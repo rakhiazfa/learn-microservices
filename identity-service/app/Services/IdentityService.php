@@ -6,8 +6,6 @@ use App\Http\Requests\CreateIdentityRequest;
 use App\Http\Requests\UpdateIdentityRequest;
 use App\Models\Identity;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 class IdentityService
 {
