@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateIdentityRequest;
 use App\Http\Resources\IdentityCollection;
 use App\Http\Resources\IdentityResource;
 use App\Services\IdentityService;
-use Illuminate\Http\Request;
 
 class IdentityController extends Controller
 {
