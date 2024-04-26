@@ -8,6 +8,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class RoleResource extends JsonResource
 {
     /**
+     * @var string
+     */
+    public static $wrap = 'role';
+
+    /**
      * Transform the resource into an array.
      *
      * @return array<string, mixed>
