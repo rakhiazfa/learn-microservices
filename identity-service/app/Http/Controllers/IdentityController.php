@@ -27,16 +27,6 @@ class IdentityController extends Controller
     }
 
     /**
-     * Search the specified resource.
-     */
-    public function search(Request $request)
-    {
-        $identities = $this->identityService->search($request);
-
-        return new IdentityCollection($identities);
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(CreateIdentityRequest $request)

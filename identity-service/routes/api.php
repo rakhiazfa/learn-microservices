@@ -20,7 +20,6 @@ Route::middleware('authentication')->group(function () {
     | Identities
     -------------------------------------------------------------------------------------- */
 
-    Route::get('/identities/search', [IdentityController::class, 'search']);
     Route::apiResource('/identities', IdentityController::class, [
         'parameters' => ['identities' => 'id'],
     ]);

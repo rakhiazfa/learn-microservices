@@ -18,22 +18,6 @@ class IdentityService
         return $identities;
     }
 
-    public function search(Request $request): Collection
-    {
-        $keyword = $request->query('keyword');
-
-        $identities = Identity::when($keyword, function ($query) use ($keyword) {
-            $query->where('registration_number', 'LIKE', "%{$keyword}%")
-                ->orWhere('name', 'LIKE', "%{$keyword}%")
-                ->orWhere('place_of_birth', 'LIKE', "%{$keyword}%")
-                ->orWhere('date_of_birth', 'LIKE', "%{$keyword}%")
-                ->orWhere('gender', 'LIKE', "%{$keyword}%")
-                ->orWhere('email', 'LIKE', "%{$keyword}%");
-        })->latest()->get();
-
-        return $identities;
-    }
-
     public function create(CreateIdentityRequest $request): Identity
     {
         $identity = Identity::create($request->all());
