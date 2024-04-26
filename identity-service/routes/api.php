@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\IdentityController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
 /* --------------------------------------------------------------------------------------
@@ -28,7 +29,7 @@ Route::middleware('authentication')->group(function () {
     | Roles
     -------------------------------------------------------------------------------------- */
 
-    Route::apiResource('/roles', IdentityController::class, [
+    Route::apiResource('/roles', RoleController::class, [
         'parameters' => ['roles' => 'id'],
     ]);
 });
