@@ -29,6 +29,8 @@ Route::middleware('authentication')->group(function () {
     | Roles
     -------------------------------------------------------------------------------------- */
 
+    Route::get('/roles/search', [RoleController::class, 'search']);
+
     Route::apiResource('/roles', RoleController::class, [
         'parameters' => ['roles' => 'id'],
     ]);
