@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Encrypted;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -41,7 +42,8 @@ class Identity extends Authenticatable implements JWTSubject
     protected function casts(): array
     {
         return [
-            'dateOfBirth' => 'date',
+            'registration_number' => Encrypted::class,
+            'date_of_birth' => 'date',
             'password' => 'hashed',
             'isActive' => 'boolean',
         ];
