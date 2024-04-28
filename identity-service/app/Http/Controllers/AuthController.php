@@ -83,7 +83,7 @@ class AuthController extends Controller
         $user = auth()->user()->load('roles');
         $roleIds = $user->roles->map(fn ($role) => $role->id)->toArray();
 
-        $isSuperAdmin = $user->roles()->where('name', 'Super Admin')->first();
+        $isSuperAdmin = $user->roles->where('name', 'Super Admin')->first();
         $withoutAuthorization = filter_var($withoutAuthorization, FILTER_VALIDATE_BOOLEAN);
 
         if ($isSuperAdmin || $withoutAuthorization) return response()->noContent();
