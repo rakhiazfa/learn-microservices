@@ -3,17 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateAccessRightRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return false;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -21,8 +14,12 @@ class UpdateAccessRightRequest extends FormRequest
      */
     public function rules(): array
     {
+        $accessRightId = $this->route('id');
+
         return [
-            //
+            'name' => ['required', Rule::unique('access_rights')->ignore($accessRightId)],
+            'method' => ['required'],
+            'url' => ['required'],
         ];
     }
 }

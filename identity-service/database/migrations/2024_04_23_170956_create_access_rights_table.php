@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('access_rights', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('url')->unique();
+            $table->string('name')->unique();
+            $table->string('method');
+            $table->string('url');
             $table->timestamps();
         });
     }
