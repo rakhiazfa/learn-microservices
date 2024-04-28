@@ -94,6 +94,7 @@ services:
     image: nginx:latest
     volumes:
       - ./api-gateway/nginx.conf:/etc/nginx/nginx.conf
+      - ./api-gateway/snippets:/etc/nginx/snippets
     ports:
       - 8080:80
     networks:
