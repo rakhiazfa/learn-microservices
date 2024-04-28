@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccessRightController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\IdentityController;
 use App\Http\Controllers\RoleController;
@@ -33,5 +34,15 @@ Route::middleware('authentication')->group(function () {
 
     Route::apiResource('/roles', RoleController::class, [
         'parameters' => ['roles' => 'id'],
+    ]);
+
+    /* --------------------------------------------------------------------------------------
+    | Access Rights
+    -------------------------------------------------------------------------------------- */
+
+    Route::get('/access-rights/search', [AccessRightController::class, 'search']);
+
+    Route::apiResource('/access-rights', AccessRightController::class, [
+        'parameters' => ['access-rights' => 'id'],
     ]);
 });
