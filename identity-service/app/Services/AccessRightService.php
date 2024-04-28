@@ -32,8 +32,8 @@ class AccessRightService
         $uri = $request->input('uri');
 
         $accessRight = AccessRight::where([
-            ['method' => $method],
-            ['uri' => $uri],
+            ['method', $method],
+            ['uri', $uri],
         ])->first();
 
         if ($accessRight) {
