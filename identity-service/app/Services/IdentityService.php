@@ -7,6 +7,8 @@ use App\Http\Requests\CreateIdentityRequest;
 use App\Http\Requests\UpdateIdentityRequest;
 use App\Models\Identity;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\QueryException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class IdentityService
 {
@@ -49,11 +51,19 @@ class IdentityService
 
     public function assignRoles(AssignRolesRequest $request, string $id): Identity
     {
-        $identity = $this->findById($id);
-        $roles = $request->input('roles', []);
+        try {
+            $identity = $this->findById($id);
+            $roles = $request->input('roles', []);
 
-        $identity->roles()->sync($roles);
+            $identity->roles()->sync($roles);
 
-        return $identity;
+            return $identity;
+        } catch (QueryException $exception) {
+            if ($exception->getCode() === "23000") {
+                $bindings = $exception->getBindings();
+
+                throw new UnprocessableEntityHttpException('Role with id ' . $bindings[1] . ' not found.');
+            }
+        }
     }
 }

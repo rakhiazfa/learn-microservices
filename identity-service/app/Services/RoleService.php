@@ -7,6 +7,7 @@ use App\Http\Requests\CreateRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Role;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -58,11 +59,19 @@ class RoleService
 
     public function assignAccessRights(AssignAccessRightsRequest $request, string $id): Role
     {
-        $role = $this->findById($id);
-        $accessRights = $request->input('access_rights', []);
+        try {
+            $role = $this->findById($id);
+            $accessRights = $request->input('access_rights', []);
 
-        $role->accessRights()->sync($accessRights);
+            $role->accessRights()->sync($accessRights);
 
-        return $role;
+            return $role;
+        } catch (QueryException $exception) {
+            if ($exception->getCode() === "23000") {
+                $bindings = $exception->getBindings();
+
+                throw new UnprocessableEntityHttpException('Access right with id ' . $bindings[1] . ' not found.');
+            }
+        }
     }
 }
