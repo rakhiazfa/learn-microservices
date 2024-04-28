@@ -16,9 +16,6 @@ class IdentityController extends Controller
         // 
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $identities = $this->identityService->findAll();
@@ -26,9 +23,6 @@ class IdentityController extends Controller
         return new IdentityCollection($identities);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(CreateIdentityRequest $request)
     {
         $this->identityService->create($request);
@@ -38,9 +32,6 @@ class IdentityController extends Controller
         ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $identity = $this->identityService->findById($id);
@@ -48,9 +39,6 @@ class IdentityController extends Controller
         return new IdentityResource($identity);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateIdentityRequest $request, string $id)
     {
         $this->identityService->update($request, $id);
@@ -60,9 +48,6 @@ class IdentityController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $this->identityService->delete($id);

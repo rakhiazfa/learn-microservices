@@ -17,9 +17,6 @@ class RoleController extends Controller
         // 
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $roles = $this->roleService->findAll();
@@ -27,9 +24,6 @@ class RoleController extends Controller
         return new RoleCollection($roles);
     }
 
-    /**
-     * Search the specified resource.
-     */
     public function search(Request $request)
     {
         $roles = $this->roleService->search($request);
@@ -37,9 +31,6 @@ class RoleController extends Controller
         return new RoleCollection($roles);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(CreateRoleRequest $request)
     {
         $this->roleService->create($request);
@@ -49,9 +40,6 @@ class RoleController extends Controller
         ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $role = $this->roleService->findById($id);
@@ -59,9 +47,6 @@ class RoleController extends Controller
         return new RoleResource($role);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateRoleRequest $request, string $id)
     {
         $this->roleService->update($request, $id);
@@ -71,9 +56,6 @@ class RoleController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $this->roleService->delete($id);

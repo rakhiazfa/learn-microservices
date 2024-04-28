@@ -16,9 +16,6 @@ class AccessRightController extends Controller
         // 
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $accessRights = $this->accessRightService->findAll();
@@ -26,9 +23,6 @@ class AccessRightController extends Controller
         return new AccessRightCollection($accessRights);
     }
 
-    /**
-     * Search the specified resource.
-     */
     public function search(Request $request)
     {
         $accessRights = $this->accessRightService->search($request);
@@ -36,9 +30,6 @@ class AccessRightController extends Controller
         return new AccessRightCollection($accessRights);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(CreateAccessRightRequest $request)
     {
         $this->accessRightService->create($request);
@@ -48,9 +39,6 @@ class AccessRightController extends Controller
         ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $accessRight = $this->accessRightService->findById($id);
@@ -58,9 +46,6 @@ class AccessRightController extends Controller
         return new AccessRightResource($accessRight);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateAccessRightRequest $request, string $id)
     {
         $this->accessRightService->update($request, $id);
@@ -70,9 +55,6 @@ class AccessRightController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $this->accessRightService->delete($id);
