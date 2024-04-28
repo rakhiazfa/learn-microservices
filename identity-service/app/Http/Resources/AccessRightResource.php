@@ -23,7 +23,7 @@ class AccessRightResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'method' => $this->method,
-            'url' => $this->url,
+            'uri' => $this->uri,
         ];
     }
 }
