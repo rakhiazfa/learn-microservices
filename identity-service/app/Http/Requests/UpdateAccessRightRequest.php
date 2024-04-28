@@ -19,7 +19,7 @@ class UpdateAccessRightRequest extends FormRequest
         return [
             'name' => ['required', Rule::unique('access_rights')->ignore($accessRightId)],
             'method' => ['required'],
-            'url' => ['required'],
+            'uri' => ['required'],
         ];
     }
 }

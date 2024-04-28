@@ -16,7 +16,7 @@ class CreateAccessRightRequest extends FormRequest
         return [
             'name' => ['required', 'unique:access_rights'],
             'method' => ['required'],
-            'url' => ['required'],
+            'uri' => ['required'],
         ];
     }
 }

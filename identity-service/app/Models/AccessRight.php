@@ -17,7 +17,7 @@ class AccessRight extends Model
     protected $fillable = [
         'name',
         'method',
-        'url',
+        'uri',
     ];
 
     /**
