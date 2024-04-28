@@ -10,6 +10,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class RoleService
 {
@@ -70,7 +71,7 @@ class RoleService
             if ($exception->getCode() === "23000") {
                 $bindings = $exception->getBindings();
 
-                throw new UnprocessableEntityHttpException('Access right with id ' . $bindings[1] . ' not found.');
+                throw new BadRequestHttpException('Access right with id ' . $bindings[1] . ' not found.');
             }
         }
     }

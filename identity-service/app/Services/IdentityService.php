@@ -8,7 +8,7 @@ use App\Http\Requests\UpdateIdentityRequest;
 use App\Models\Identity;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\QueryException;
-use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class IdentityService
 {
@@ -62,7 +62,7 @@ class IdentityService
             if ($exception->getCode() === "23000") {
                 $bindings = $exception->getBindings();
 
-                throw new UnprocessableEntityHttpException('Role with id ' . $bindings[1] . ' not found.');
+                throw new BadRequestHttpException('Role with id ' . $bindings[1] . ' not found.');
             }
         }
     }
