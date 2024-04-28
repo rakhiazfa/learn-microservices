@@ -8,6 +8,7 @@ use App\Models\AccessRight;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class AccessRightService
 {
@@ -27,9 +28,19 @@ class AccessRightService
 
     public function create(CreateAccessRightRequest $request): AccessRight
     {
-        $accessRight = AccessRight::create($request->all());
+        $method = $request->input('method');
+        $uri = $request->input('uri');
 
-        return $accessRight;
+        $accessRight = AccessRight::where([
+            ['method' => $method],
+            ['uri' => $uri],
+        ])->first();
+
+        if ($accessRight) {
+            throw new BadRequestHttpException('Cannot create access rights, access rights have been created.');
+        }
+
+        return AccessRight::create($request->all());
     }
 
     public function findById(string $id): AccessRight
