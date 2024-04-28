@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Requests\AssignAccessRightsRequest;
 use App\Http\Requests\CreateRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Role;
@@ -34,7 +35,7 @@ class RoleService
 
     public function findById(string $id): Role
     {
-        $role = Role::findOrFail($id);
+        $role = Role::with('accessRights')->findOrFail($id);
 
         return $role;
     }
@@ -53,5 +54,15 @@ class RoleService
         $role = $this->findById($id);
 
         return $role->delete();
+    }
+
+    public function assignAccessRights(AssignAccessRightsRequest $request, string $id): Role
+    {
+        $role = $this->findById($id);
+        $accessRights = $request->input('access_rights', []);
+
+        $role->accessRights()->sync($accessRights);
+
+        return $role;
     }
 }

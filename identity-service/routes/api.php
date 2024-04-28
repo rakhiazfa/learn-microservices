@@ -6,17 +6,17 @@ use App\Http\Controllers\IdentityController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
-/* --------------------------------------------------------------------------------------
-| Auth
--------------------------------------------------------------------------------------- */
-
-Route::prefix('/auth')->middleware('authentication')->group(function () {
-    Route::post('/signin', [AuthController::class, 'signIn'])->withoutMiddleware('authentication');
-    Route::post('/signout', [AuthController::class, 'signOut']);
-    Route::get('/user', [AuthController::class, 'user']);
-});
-
 Route::middleware('authentication')->group(function () {
+
+    /* --------------------------------------------------------------------------------------
+    | Auth
+    -------------------------------------------------------------------------------------- */
+
+    Route::prefix('/auth')->group(function () {
+        Route::post('/signin', [AuthController::class, 'signIn'])->withoutMiddleware('authentication');
+        Route::post('/signout', [AuthController::class, 'signOut']);
+        Route::get('/user', [AuthController::class, 'user']);
+    });
 
     /* --------------------------------------------------------------------------------------
     | Identities
@@ -25,6 +25,8 @@ Route::middleware('authentication')->group(function () {
     Route::apiResource('/identities', IdentityController::class, [
         'parameters' => ['identities' => 'id'],
     ]);
+
+    Route::post('/identities/{id}/roles', [IdentityController::class, 'assignRoles']);
 
     /* --------------------------------------------------------------------------------------
     | Roles
@@ -35,6 +37,8 @@ Route::middleware('authentication')->group(function () {
     Route::apiResource('/roles', RoleController::class, [
         'parameters' => ['roles' => 'id'],
     ]);
+
+    Route::post('/roles/{id}/access-rights', [RoleController::class, 'assignAccessRights']);
 
     /* --------------------------------------------------------------------------------------
     | Access Rights

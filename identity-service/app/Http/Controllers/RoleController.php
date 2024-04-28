@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AssignAccessRightsRequest;
 use App\Http\Requests\CreateRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Http\Resources\RoleCollection;
@@ -79,6 +80,15 @@ class RoleController extends Controller
 
         return response()->json([
             'message' => 'Successfully deleted role.',
+        ]);
+    }
+
+    public function assignAccessRights(AssignAccessRightsRequest $request, string $id)
+    {
+        $this->roleService->assignAccessRights($request, $id);
+
+        return response()->json([
+            'message' => 'Access rights successfully assigned.',
         ]);
     }
 }

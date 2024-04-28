@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AssignRolesRequest;
 use App\Http\Requests\CreateIdentityRequest;
 use App\Http\Requests\UpdateIdentityRequest;
 use App\Http\Resources\IdentityCollection;
@@ -68,6 +69,15 @@ class IdentityController extends Controller
 
         return response()->json([
             'message' => 'Successfully deleted identity.',
+        ]);
+    }
+
+    public function assignRoles(AssignRolesRequest $request, string $id)
+    {
+        $this->identityService->assignRoles($request, $id);
+
+        return response()->json([
+            'message' => 'Roles successfully assigned.',
         ]);
     }
 }

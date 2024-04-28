@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Requests\AssignRolesRequest;
 use App\Http\Requests\CreateIdentityRequest;
 use App\Http\Requests\UpdateIdentityRequest;
 use App\Models\Identity;
@@ -25,7 +26,7 @@ class IdentityService
 
     public function findById(string $id): Identity
     {
-        $identity = Identity::findOrFail($id);
+        $identity = Identity::with('roles')->findOrFail($id);
 
         return $identity;
     }
@@ -44,5 +45,15 @@ class IdentityService
         $identity = $this->findById($id);
 
         return $identity->delete();
+    }
+
+    public function assignRoles(AssignRolesRequest $request, string $id): Identity
+    {
+        $identity = $this->findById($id);
+        $roles = $request->input('roles', []);
+
+        $identity->roles()->sync($roles);
+
+        return $identity;
     }
 }

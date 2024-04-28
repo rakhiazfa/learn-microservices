@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -70,5 +71,10 @@ class Identity extends Authenticatable implements JWTSubject
     public function personalAccessTokens(): HasMany
     {
         return $this->hasMany(PersonalAccessToken::class, 'identity_id');
+    }
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'identity_roles', 'identity_id', 'role_id');
     }
 }
