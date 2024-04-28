@@ -14,7 +14,7 @@ class AssignAccessRightsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'access_rights' => ['required', 'array'],
+            'access_rights' => ['array'],
             'access_rights.*' => ['integer'],
         ];
     }
