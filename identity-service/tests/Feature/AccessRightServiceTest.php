@@ -8,6 +8,7 @@ use Database\Seeders\AccessRightSeeder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 uses(RefreshDatabase::class);
@@ -66,6 +67,18 @@ it('should be return a specific access right', function () {
     expect($accessRight->name)->toBe($existingAccessRight->name);
     expect($accessRight->method)->toBe($existingAccessRight->method);
     expect($accessRight->uri)->toBe($existingAccessRight->uri);
+});
+
+it('should save the access right to cache', function () {
+    $existingAccessRight = AccessRight::factory()->create();
+    $accessRight = $this->accessRightService->findById($existingAccessRight->id);
+
+    $accessRightFromCache = Cache::tags(AccessRight::$cacheKey)->get($accessRight->id);
+
+    expect($accessRightFromCache)->toBeInstanceOf(AccessRight::class);
+    expect($accessRightFromCache->name)->toBe($existingAccessRight->name);
+    expect($accessRightFromCache->method)->toBe($existingAccessRight->method);
+    expect($accessRightFromCache->uri)->toBe($existingAccessRight->uri);
 });
 
 it('should be update an access right', function () {
