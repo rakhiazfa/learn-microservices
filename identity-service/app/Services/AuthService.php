@@ -5,8 +5,11 @@ namespace App\Services;
 use App\Exceptions\UnauthenticatedException;
 use App\Exceptions\UnauthorizationException;
 use App\Http\Requests\SignInRequest;
+use App\Models\AccessRight;
+use App\Models\Identity;
 use App\Models\PersonalAccessToken;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -34,8 +37,10 @@ class AuthService
     public function signOut(Request $request): bool
     {
         $accessToken = $request->bearerToken();
+        $user = auth()->user();
 
         PersonalAccessToken::where('token', $accessToken)->update(['revoked' => true]);
+        Cache::tags(Identity::$cacheKey)->forget($user->id . '.' . AccessRight::$cacheKey);
 
         auth()->guard('api')->logout();
 
@@ -54,9 +59,17 @@ class AuthService
         Log::info($request->headers);
 
         $token = $request->bearerToken();
-        $method = $request->header('X-Original-Method');
-        $uri = $request->header('X-Original-Uri');
+        $originalMethod = $request->header('X-Original-Method');
+        $originalUri = $request->header('X-Original-Uri');
         $withoutAuthorization = $request->header('X-Without-Authorization');
+
+        $uriComponents = parse_url($originalUri);
+        $originalQueryParams = $uriComponents['query'] ?? '';
+
+        parse_str($originalQueryParams, $queryParams);
+
+        $originalUri = $uriComponents['path'] ?? '/';
+        $originalMethod = isset($queryParams['_method']) && $queryParams['_method'] === 'PUT' ? 'PUT' : $originalMethod;
 
         $personalAccessToken = PersonalAccessToken::where([
             ['token', $token],
@@ -75,14 +88,11 @@ class AuthService
 
         if ($isSuperAdmin || $withoutAuthorization) return true;
 
-        $accessRights = DB::table('role_access_rights')
-            ->join('access_rights', 'access_rights.id', 'role_access_rights.access_right_id')
-            ->whereIn('role_id', $roleIds)
-            ->where('access_rights.method', $method)
-            ->select(['access_rights.id', 'access_rights.name', 'access_rights.method', 'access_rights.uri'])
-            ->get()->toArray();
-
-        $isAllowed = $this->checkAccessRight($uri, $accessRights);
+        $accessRights = Cache::tags(Identity::$cacheKey)
+            ->remember($user->id . '.' . AccessRight::$cacheKey, 24 * 60 * 60, function () use ($roleIds) {
+                return $this->getRoleAccessRights($roleIds);
+            });
+        $isAllowed = $this->checkAccessRight($originalUri, $originalMethod, $accessRights);
 
         if (!$isAllowed) {
             throw new UnauthorizationException();
@@ -91,7 +101,16 @@ class AuthService
         return true;
     }
 
-    private function checkAccessRight($uri, $routes)
+    private function getRoleAccessRights(array $roleIds): array
+    {
+        return DB::table('role_access_rights')
+            ->join('access_rights', 'access_rights.id', 'role_access_rights.access_right_id')
+            ->whereIn('role_id', $roleIds)
+            ->select(['access_rights.id', 'access_rights.name', 'access_rights.method', 'access_rights.uri'])
+            ->get()->toArray();
+    }
+
+    private function checkAccessRight(string $originalUri, string $originalMethod, array $routes): bool
     {
         $matchedRoute = null;
 
@@ -100,7 +119,7 @@ class AuthService
             $pattern = preg_replace('/:(\w+)/', '(?<\1>\w+)', $pattern);
             $pattern = '/^' . $pattern . '$/';
 
-            if (preg_match($pattern, $uri, $matches)) {
+            if (preg_match($pattern, $originalUri, $matches) && $route->method === $originalMethod) {
                 array_shift($matches);
 
                 $matchedRoute = $route;
