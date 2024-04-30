@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\AccessRightService;
+use App\Services\AuthService;
 use App\Services\IdentityService;
 use App\Services\RabbitMQService;
 use App\Services\RoleService;
@@ -18,8 +20,10 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(RabbitMQService::class);
-        $this->app->singleton(IdentityService::class);
+        $this->app->singleton(AccessRightService::class);
         $this->app->singleton(RoleService::class);
+        $this->app->singleton(IdentityService::class);
+        $this->app->singleton(AuthService::class);
     }
 
     /**
