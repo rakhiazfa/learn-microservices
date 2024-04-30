@@ -51,7 +51,7 @@ class Identity extends Authenticatable implements JWTSubject
         return [
             'date_of_birth' => 'date',
             'password' => 'hashed',
-            'isActive' => 'boolean',
+            'is_active' => 'boolean',
         ];
     }
 
