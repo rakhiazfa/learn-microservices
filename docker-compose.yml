@@ -102,6 +102,20 @@ services:
     depends_on:
     - identity-service
 
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    env_file:
+      - ./frontend/.env.production
+    ports:
+      - 3000:80
+    networks:
+      - merdekalio-network
+    depends_on:
+      - api-gateway
+
 volumes:
   mysql-volume:
     driver: local
