@@ -58,7 +58,7 @@ it('should be cannot create an access right', function () {
     $this->accessRightService->create($request);
 })->throws(BadRequestHttpException::class);
 
-it('should be return specific access right', function () {
+it('should be return a specific access right', function () {
     $existingAccessRight = AccessRight::factory()->create();
     $accessRight = $this->accessRightService->findById($existingAccessRight->id);
 
