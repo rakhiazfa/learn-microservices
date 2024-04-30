@@ -13,4 +13,6 @@ RUN chown -R www-data:www-data storage \
     && chmod -R 775 storage \
     && chmod -R 775 bootstrap/cache
 
+RUN php artisan optimize
+
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
