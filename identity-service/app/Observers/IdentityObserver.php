@@ -18,7 +18,7 @@ class IdentityObserver
     public function created(Identity $identity): void
     {
         $payload = [
-            'message' => 'Successfully created a new identity.',
+            'message' => 'Successfully created a new identity',
             'identity' => $identity->toArray(),
         ];
 
@@ -31,7 +31,7 @@ class IdentityObserver
     public function updated(Identity $identity): void
     {
         $payload = [
-            'message' => 'Successfully updated identity.',
+            'message' => 'Successfully updated identity',
             'identity' => $identity->toArray(),
         ];
 
@@ -44,7 +44,7 @@ class IdentityObserver
     public function deleted(Identity $identity): void
     {
         $payload = [
-            'message' => 'Successfully deleted identity.',
+            'message' => 'Successfully deleted identity',
             'identity' => $identity->toArray(),
         ];
 
@@ -57,7 +57,7 @@ class IdentityObserver
     public function restored(Identity $identity): void
     {
         $payload = [
-            'message' => 'Successfully restored identity.',
+            'message' => 'Successfully restored identity',
             'identity' => $identity->toArray(),
         ];
 
@@ -70,7 +70,7 @@ class IdentityObserver
     public function forceDeleted(Identity $identity): void
     {
         $payload = [
-            'message' => 'Successfully force deleted identity.',
+            'message' => 'Successfully deleted identity',
             'identity' => $identity->toArray(),
         ];
 
