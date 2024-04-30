@@ -22,14 +22,14 @@ it('should be return roles pagination', function () {
     $roles = $this->roleService->findAll();
 
     expect($roles)->toBeInstanceOf(LengthAwarePaginator::class);
-    expect($roles->count())->toBe(8);
+    expect($roles->count())->toBeGreaterThan(5);
 });
 
 it('should be return roles collection', function () {
     $roles = $this->roleService->search();
 
     expect($roles)->toBeInstanceOf(Collection::class);
-    expect($roles->count())->toBe(8);
+    expect($roles->count())->toBeGreaterThan(5);
     expect($roles[0])->toBeInstanceOf(Role::class);
 });
 

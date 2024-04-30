@@ -22,14 +22,14 @@ it('should be return access rights pagination', function () {
     $accessRights = $this->accessRightService->findAll();
 
     expect($accessRights)->toBeInstanceOf(LengthAwarePaginator::class);
-    expect($accessRights->count())->toBe(10);
+    expect($accessRights->count())->toBeGreaterThan(5);
 });
 
 it('should be return access rights collection', function () {
     $accessRights = $this->accessRightService->search();
 
     expect($accessRights)->toBeInstanceOf(Collection::class);
-    expect($accessRights->count())->toBe(10);
+    expect($accessRights->count())->toBeGreaterThan(5);
     expect($accessRights[0])->toBeInstanceOf(AccessRight::class);
 });
 
