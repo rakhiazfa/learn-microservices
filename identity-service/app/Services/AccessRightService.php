@@ -6,9 +6,9 @@ use App\Http\Requests\CreateAccessRightRequest;
 use App\Http\Requests\UpdateAccessRightRequest;
 use App\Models\AccessRight;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Spatie\QueryBuilder\QueryBuilder;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -16,14 +16,21 @@ class AccessRightService
 {
     public function findAll(): LengthAwarePaginator
     {
-        $accessRights = AccessRight::latest()->paginate(15);
+        $accessRights = QueryBuilder::for(AccessRight::class)
+            ->allowedFilters(['name', 'method', 'uri'])
+            ->latest()
+            ->paginate(15)
+            ->withQueryString();
 
         return $accessRights;
     }
 
-    public function search(Request $request): Collection
+    public function search(): Collection
     {
-        $accessRights = AccessRight::latest()->get();
+        $accessRights = QueryBuilder::for(AccessRight::class)
+            ->allowedFilters(['name', 'method', 'uri'])
+            ->latest()
+            ->get();
 
         return $accessRights;
     }

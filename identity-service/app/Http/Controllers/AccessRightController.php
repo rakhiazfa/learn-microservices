@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateAccessRightRequest;
 use App\Http\Resources\AccessRightCollection;
 use App\Http\Resources\AccessRightResource;
 use App\Services\AccessRightService;
-use Illuminate\Http\Request;
 
 class AccessRightController extends Controller
 {
@@ -23,9 +22,9 @@ class AccessRightController extends Controller
         return new AccessRightCollection($accessRights);
     }
 
-    public function search(Request $request)
+    public function search()
     {
-        $accessRights = $this->accessRightService->search($request);
+        $accessRights = $this->accessRightService->search();
 
         return new AccessRightCollection($accessRights);
     }

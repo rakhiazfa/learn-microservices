@@ -8,9 +8,9 @@ use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Role;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\QueryException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Spatie\QueryBuilder\QueryBuilder;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -18,14 +18,21 @@ class RoleService
 {
     public function findAll(): LengthAwarePaginator
     {
-        $roles = Role::latest()->paginate(15);
+        $roles = QueryBuilder::for(Role::class)
+            ->allowedFilters(['name'])
+            ->latest()
+            ->paginate(15)
+            ->withQueryString();
 
         return $roles;
     }
 
-    public function search(Request $request): Collection
+    public function search(): Collection
     {
-        $roles = Role::latest()->get();
+        $roles = QueryBuilder::for(Role::class)
+            ->allowedFilters(['name'])
+            ->latest()
+            ->get();
 
         return $roles;
     }

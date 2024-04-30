@@ -8,7 +8,6 @@ use App\Http\Requests\UpdateRoleRequest;
 use App\Http\Resources\RoleCollection;
 use App\Http\Resources\RoleResource;
 use App\Services\RoleService;
-use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
@@ -24,9 +23,9 @@ class RoleController extends Controller
         return new RoleCollection($roles);
     }
 
-    public function search(Request $request)
+    public function search()
     {
-        $roles = $this->roleService->search($request);
+        $roles = $this->roleService->search();
 
         return new RoleCollection($roles);
     }

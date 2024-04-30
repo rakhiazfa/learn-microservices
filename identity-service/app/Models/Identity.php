@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Carbon;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class Identity extends Authenticatable implements JWTSubject
@@ -81,5 +83,10 @@ class Identity extends Authenticatable implements JWTSubject
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'identity_roles', 'identity_id', 'role_id');
+    }
+
+    public function scopeDateOfBirth(Builder $query, $date): Builder
+    {
+        return $query->where('date_of_birth', '=', Carbon::parse($date));
     }
 }

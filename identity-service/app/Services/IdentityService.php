@@ -9,6 +9,8 @@ use App\Models\Identity;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Cache;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -16,7 +18,19 @@ class IdentityService
 {
     public function findAll(): LengthAwarePaginator
     {
-        $identities = Identity::latest()->paginate(15);
+        $identities = QueryBuilder::for(Identity::class)
+            ->allowedFilters([
+                'registration_number',
+                'name',
+                'place_of_birth',
+                AllowedFilter::scope('date_of_birth'),
+                'gender',
+                'email',
+                AllowedFilter::exact('is_active'),
+            ])
+            ->latest()
+            ->paginate(15)
+            ->withQueryString();
 
         return $identities;
     }
