@@ -27,5 +27,7 @@ class IdentitySeeder extends Seeder
         $identity->roles()->sync([
             Role::where('name', 'Super Admin')->first()->id,
         ]);
+
+        Identity::factory()->count(25)->create();
     }
 }
