@@ -32,7 +32,7 @@ it('should be return access rights collection', function () {
     expect($accessRights[0])->toBeInstanceOf(AccessRight::class);
 });
 
-it('should be return create an access right', function () {
+it('should be create an access right', function () {
     $request = new CreateAccessRightRequest([
         'name' => 'Fetch Menus',
         'method' => 'GET',
