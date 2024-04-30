@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Identity;
 use App\Services\RabbitMQService;
+use Illuminate\Support\Facades\Cache;
 
 class IdentityObserver
 {
@@ -17,6 +18,8 @@ class IdentityObserver
      */
     public function created(Identity $identity): void
     {
+        Cache::tags(Identity::$cacheKey)->forget($identity->id);
+
         $payload = [
             'message' => 'Successfully created a new identity',
             'identity' => $identity->toArray(),
@@ -30,6 +33,8 @@ class IdentityObserver
      */
     public function updated(Identity $identity): void
     {
+        Cache::tags(Identity::$cacheKey)->forget($identity->id);
+
         $payload = [
             'message' => 'Successfully updated identity',
             'identity' => $identity->toArray(),
@@ -43,6 +48,8 @@ class IdentityObserver
      */
     public function deleted(Identity $identity): void
     {
+        Cache::tags(Identity::$cacheKey)->forget($identity->id);
+
         $payload = [
             'message' => 'Successfully deleted identity',
             'identity' => $identity->toArray(),
@@ -56,6 +63,8 @@ class IdentityObserver
      */
     public function restored(Identity $identity): void
     {
+        Cache::tags(Identity::$cacheKey)->forget($identity->id);
+
         $payload = [
             'message' => 'Successfully restored identity',
             'identity' => $identity->toArray(),
@@ -69,6 +78,8 @@ class IdentityObserver
      */
     public function forceDeleted(Identity $identity): void
     {
+        Cache::tags(Identity::$cacheKey)->forget($identity->id);
+
         $payload = [
             'message' => 'Successfully deleted identity',
             'identity' => $identity->toArray(),

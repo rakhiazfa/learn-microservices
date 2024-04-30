@@ -13,6 +13,11 @@ class Identity extends Authenticatable implements JWTSubject
     use HasFactory;
 
     /**
+     * @var string
+     */
+    public static string $cacheKey = 'identities';
+
+    /**
      * @var array
      */
     protected $fillable = [

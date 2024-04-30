@@ -8,7 +8,9 @@ use App\Http\Requests\UpdateIdentityRequest;
 use App\Models\Identity;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class IdentityService
 {
@@ -28,7 +30,13 @@ class IdentityService
 
     public function findById(string $id): Identity
     {
-        $identity = Identity::with('roles')->findOrFail($id);
+        $identity = Cache::tags(Identity::$cacheKey)->remember($id, 60 * 60, function () use ($id) {
+            return Identity::find($id);
+        });
+
+        if (!$identity) throw new NotFoundHttpException('Identity not found');
+
+        $identity->load('roles');
 
         return $identity;
     }

@@ -12,6 +12,11 @@ class AccessRight extends Model
     use HasFactory;
 
     /**
+     * @var string
+     */
+    public static string $cacheKey = 'access_rights';
+
+    /**
      * @var array
      */
     protected $fillable = [

@@ -10,7 +10,9 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RoleService
 {
@@ -37,7 +39,13 @@ class RoleService
 
     public function findById(string $id): Role
     {
-        $role = Role::with('accessRights')->findOrFail($id);
+        $role = Cache::tags(Role::$cacheKey)->remember($id, 60 * 60, function () use ($id) {
+            return Role::find($id);
+        });
+
+        if (!$role) throw new NotFoundHttpException('Role not found');
+
+        $role->load('accessRights');
 
         return $role;
     }

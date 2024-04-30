@@ -8,7 +8,9 @@ use App\Models\AccessRight;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AccessRightService
 {
@@ -45,7 +47,11 @@ class AccessRightService
 
     public function findById(string $id): AccessRight
     {
-        $accessRight = AccessRight::findOrFail($id);
+        $accessRight = Cache::tags(AccessRight::$cacheKey)->remember($id, 60 * 60, function () use ($id) {
+            return AccessRight::find($id);
+        });
+
+        if (!$accessRight) throw new NotFoundHttpException('Access right not found');
 
         return $accessRight;
     }

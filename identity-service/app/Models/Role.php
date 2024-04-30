@@ -11,6 +11,11 @@ class Role extends Model
     use HasFactory;
 
     /**
+     * @var string
+     */
+    public static string $cacheKey = 'roles';
+
+    /**
      * @var array
      */
     protected $fillable = [
