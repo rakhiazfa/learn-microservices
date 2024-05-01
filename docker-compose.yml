@@ -89,6 +89,20 @@ services:
       - rabbitmq
       - redis
 
+  master-data-service:
+    container_name: master-data-service
+    build:
+      context: ./master-data-service
+      dockerfile: Dockerfile
+    env_file:
+      - ./master-data-service/.env.production
+    networks:
+      - merdekalio-network
+    depends_on:
+      - mysql
+      - rabbitmq
+      - redis
+
   api-gateway:
     container_name: api-gateway
     image: nginx:latest
