@@ -4,7 +4,7 @@ WORKDIR /var/www
 
 COPY . .
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY default.conf /etc/nginx/http.d/
 
 RUN composer install --optimize-autoloader --prefer-dist --no-dev -o
 
