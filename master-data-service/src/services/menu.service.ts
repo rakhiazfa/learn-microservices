@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 import PrismaService from "./prisma.service";
-import type { Menu } from "@prisma/client";
+import type { Menu } from "prisma/client";
 import type CreateMenuSchema from "@/schemas/create-menu.schema";
 import type UpdateMenuSchema from "@/schemas/update-menu.schema";
 
@@ -9,7 +9,11 @@ class MenuService {
     constructor(private readonly prismaService: PrismaService) {}
 
     async findAll(): Promise<Menu[]> {
-        return [];
+        return await this.prismaService.menu.findMany({
+            orderBy: {
+                order: "asc",
+            },
+        });
     }
 
     async create(createMenuSchema: CreateMenuSchema): Promise<Menu> {
