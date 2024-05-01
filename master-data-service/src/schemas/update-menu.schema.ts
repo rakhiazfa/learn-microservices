@@ -7,12 +7,13 @@ class UpdateMenuSchema {
     @IsNotEmpty()
     uri: string;
 
-    @IsNumber()
     @ValidateIf((schema) => schema.order !== null || schema.order !== undefined)
+    @IsNumber()
     order?: number;
-
+    @ValidateIf(
+        (schema) => schema.parent_id !== null || schema.parent_id !== undefined
+    )
     @IsNumber()
-    @ValidateIf((schema) => schema.order !== null || schema.order !== undefined)
     parent_id?: number;
 }
 
