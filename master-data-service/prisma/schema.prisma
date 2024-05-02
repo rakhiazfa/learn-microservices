@@ -18,7 +18,7 @@ datasource db {
 model Menu {
   id        Int @id @default(autoincrement())
   name      String
-  uri       String
+  uri       String?
   order     Int @default(1)
   parentId  Int?
   parent    Menu? @relation("menuChildren", fields: [parentId], references: [id])
