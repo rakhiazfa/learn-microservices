@@ -124,7 +124,7 @@ services:
     env_file:
       - ./frontend/.env.production
     ports:
-      - 3000:80
+      - 5000:80
     networks:
       - merdekalio-network
     depends_on:
