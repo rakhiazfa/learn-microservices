@@ -22,12 +22,17 @@ class MenuService {
     async create(createMenuSchema: CreateMenuSchema): Promise<Menu> {
         const { name, uri, order, parentId } = createMenuSchema;
 
+        const parent = parentId ? await this.findById(parentId) : null;
         const menu = await this.prismaService.menu.create({
             data: {
                 name,
                 uri,
                 order,
-                parentId,
+                parent: {
+                    connect: {
+                        id: parent?.id,
+                    },
+                },
             },
         });
 
@@ -39,7 +44,7 @@ class MenuService {
             where: { id: +id },
         });
 
-        if (!menu) throw new NotFoundException("Menu not found");
+        if (!menu) throw new NotFoundException(`Menu with id ${id} not found`);
 
         return menu;
     }
@@ -50,13 +55,18 @@ class MenuService {
     ): Promise<Menu> {
         const { name, uri, order, parentId } = updateMenuSchema;
 
+        const parent = parentId ? await this.findById(parentId) : null;
         const menu = this.prismaService.menu.update({
             where: { id: +id },
             data: {
                 name,
                 uri,
                 order,
-                parentId,
+                parent: {
+                    connect: {
+                        id: parent?.id,
+                    },
+                },
             },
         });
 
