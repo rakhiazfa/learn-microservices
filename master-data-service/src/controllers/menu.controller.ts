@@ -34,7 +34,7 @@ class MenuController {
                 });
             }
 
-            this.menuService.create(data);
+            await this.menuService.create(data);
 
             res.status(201).json({
                 message: "Successfully created a new menu",
