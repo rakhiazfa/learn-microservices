@@ -1,6 +1,6 @@
+import App from "@/layouts/app";
+import Home from "@/pages/home";
 import { createBrowserRouter } from "react-router-dom";
-import App from "../layouts/app";
-import Home from "../pages/home";
 
 const router = createBrowserRouter([
     {
