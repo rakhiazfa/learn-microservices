@@ -33,7 +33,7 @@ class MenuService {
         return menu;
     }
 
-    async findById(id: string): Promise<Menu> {
+    async findById(id: number): Promise<Menu> {
         const menu = await this.prismaService.menu.findUnique({
             where: { id: +id },
         });
@@ -45,7 +45,7 @@ class MenuService {
 
     async update(
         updateMenuSchema: UpdateMenuSchema,
-        id: string
+        id: number
     ): Promise<Menu> {
         const { name, uri, order, parentId } = updateMenuSchema;
 
@@ -62,7 +62,7 @@ class MenuService {
         return menu;
     }
 
-    async delete(id: string): Promise<Menu> {
+    async delete(id: number): Promise<Menu> {
         const menu = await this.prismaService.menu.delete({
             where: { id: +id },
         });

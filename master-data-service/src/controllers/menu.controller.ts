@@ -48,7 +48,7 @@ class MenuController {
         try {
             const { id } = req.params;
 
-            const menu = await this.menuService.findById(id);
+            const menu = await this.menuService.findById(+id);
 
             res.json({
                 menu,
@@ -72,7 +72,7 @@ class MenuController {
                 });
             }
 
-            await this.menuService.update(data, id);
+            await this.menuService.update(data, +id);
 
             res.json({
                 message: "Successfully updated menu",
@@ -86,7 +86,7 @@ class MenuController {
         try {
             const { id } = req.params;
 
-            await this.menuService.delete(id);
+            await this.menuService.delete(+id);
 
             res.json({
                 message: "Successfully deleted menu",
