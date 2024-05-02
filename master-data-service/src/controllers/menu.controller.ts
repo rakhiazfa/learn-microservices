@@ -53,6 +53,12 @@ class MenuController {
             req.body
         );
 
+        if (errors.length > 0) {
+            return res.status(400).json({
+                errors,
+            });
+        }
+
         await this.menuService.update(data, id);
 
         res.json({
