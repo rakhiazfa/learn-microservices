@@ -17,14 +17,14 @@ class MenuService {
     }
 
     async create(createMenuSchema: CreateMenuSchema): Promise<Menu> {
-        const { name, uri, order, parent_id } = createMenuSchema;
+        const { name, uri, order, parentId } = createMenuSchema;
 
         const menu = await this.prismaService.menu.create({
             data: {
                 name,
                 uri,
                 order,
-                parentId: parent_id,
+                parentId,
             },
         });
 
@@ -45,7 +45,7 @@ class MenuService {
         updateMenuSchema: UpdateMenuSchema,
         id: string
     ): Promise<Menu> {
-        const { name, uri, order, parent_id } = updateMenuSchema;
+        const { name, uri, order, parentId } = updateMenuSchema;
 
         const menu = this.prismaService.menu.update({
             where: { id: +id },
@@ -53,7 +53,7 @@ class MenuService {
                 name,
                 uri,
                 order,
-                parentId: parent_id,
+                parentId,
             },
         });
 
