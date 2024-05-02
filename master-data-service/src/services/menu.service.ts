@@ -3,6 +3,7 @@ import PrismaService from "./prisma.service";
 import type { Menu } from "prisma/client";
 import type CreateMenuSchema from "@/schemas/create-menu.schema";
 import type UpdateMenuSchema from "@/schemas/update-menu.schema";
+import { NotFoundException } from "@/common/exceptions/not-found.exception";
 
 @Service({ global: true })
 class MenuService {
@@ -38,7 +39,7 @@ class MenuService {
             where: { id: +id },
         });
 
-        if (!menu) throw Error("Menu not found");
+        if (!menu) throw new NotFoundException("Menu not found");
 
         return menu;
     }
