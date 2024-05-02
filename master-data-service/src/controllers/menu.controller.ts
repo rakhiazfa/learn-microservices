@@ -10,70 +10,90 @@ class MenuController {
     constructor(private readonly menuService: MenuService) {}
 
     async findAll(req: Request, res: Response, next: NextFunction) {
-        const menus = await this.menuService.findAll();
+        try {
+            const menus = await this.menuService.findAll();
 
-        res.json({
-            menus,
-        });
+            res.json({
+                menus,
+            });
+        } catch (error) {
+            next(error);
+        }
     }
 
     async create(req: Request, res: Response, next: NextFunction) {
-        const { data, errors } = await validate<CreateMenuSchema>(
-            CreateMenuSchema,
-            req.body
-        );
+        try {
+            const { data, errors } = await validate<CreateMenuSchema>(
+                CreateMenuSchema,
+                req.body
+            );
 
-        if (errors.length > 0) {
-            return res.status(400).json({
-                errors,
+            if (errors.length > 0) {
+                return res.status(400).json({
+                    errors,
+                });
+            }
+
+            this.menuService.create(data);
+
+            res.status(201).json({
+                message: "Successfully created a new menu",
             });
+        } catch (error) {
+            next(error);
         }
-
-        this.menuService.create(data);
-
-        res.status(201).json({
-            message: "Successfully created a new menu",
-        });
     }
 
     async findById(req: Request, res: Response, next: NextFunction) {
-        const { id } = req.params;
+        try {
+            const { id } = req.params;
 
-        const menu = await this.menuService.findById(id);
+            const menu = await this.menuService.findById(id);
 
-        res.json({
-            menu,
-        });
+            res.json({
+                menu,
+            });
+        } catch (error) {
+            next(error);
+        }
     }
 
     async update(req: Request, res: Response, next: NextFunction) {
-        const { id } = req.params;
-        const { data, errors } = await validate<UpdateMenuSchema>(
-            UpdateMenuSchema,
-            req.body
-        );
+        try {
+            const { id } = req.params;
+            const { data, errors } = await validate<UpdateMenuSchema>(
+                UpdateMenuSchema,
+                req.body
+            );
 
-        if (errors.length > 0) {
-            return res.status(400).json({
-                errors,
+            if (errors.length > 0) {
+                return res.status(400).json({
+                    errors,
+                });
+            }
+
+            await this.menuService.update(data, id);
+
+            res.json({
+                message: "Successfully updated menu",
             });
+        } catch (error) {
+            next(error);
         }
-
-        await this.menuService.update(data, id);
-
-        res.json({
-            message: "Successfully updated menu",
-        });
     }
 
     async delete(req: Request, res: Response, next: NextFunction) {
-        const { id } = req.params;
+        try {
+            const { id } = req.params;
 
-        await this.menuService.delete(id);
+            await this.menuService.delete(id);
 
-        res.json({
-            message: "Successfully deleted menu",
-        });
+            res.json({
+                message: "Successfully deleted menu",
+            });
+        } catch (error) {
+            next(error);
+        }
     }
 }
 

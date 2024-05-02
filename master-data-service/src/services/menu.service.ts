@@ -9,11 +9,13 @@ class MenuService {
     constructor(private readonly prismaService: PrismaService) {}
 
     async findAll(): Promise<Menu[]> {
-        return await this.prismaService.menu.findMany({
+        const menus = await this.prismaService.menu.findMany({
             orderBy: {
                 order: "asc",
             },
         });
+
+        return menus;
     }
 
     async create(createMenuSchema: CreateMenuSchema): Promise<Menu> {
@@ -61,9 +63,11 @@ class MenuService {
     }
 
     async delete(id: string): Promise<Menu> {
-        return await this.prismaService.menu.delete({
+        const menu = await this.prismaService.menu.delete({
             where: { id: +id },
         });
+
+        return menu;
     }
 }
 
