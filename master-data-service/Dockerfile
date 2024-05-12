@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package.json .
 COPY bun.lockb .
 
-RUN bun install --production
+RUN bun install
 
 COPY . .
 
@@ -16,7 +16,8 @@ FROM build AS production
 
 WORKDIR /app
 
-COPY --from=build /app/node_modules /app/node_modules
+RUN bun install --production
+
 COPY --from=build /app/dist /app/dist
 COPY --from=build /app/prisma /app/prisma
 COPY --from=build /app/package.json .
