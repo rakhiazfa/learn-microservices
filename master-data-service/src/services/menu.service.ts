@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 import PrismaService from "./prisma.service";
-import type { Menu } from "prisma/client";
+import type { Menu } from "@prisma/client";
 import type CreateMenuSchema from "@/schemas/create-menu.schema";
 import type UpdateMenuSchema from "@/schemas/update-menu.schema";
 import { NotFoundException } from "@/common/exceptions/not-found.exception";
@@ -16,7 +16,7 @@ class MenuService {
             },
         });
 
-        return menus;
+        return this.formatMenus(menus);
     }
 
     async create(createMenuSchema: CreateMenuSchema): Promise<Menu> {
@@ -79,6 +79,23 @@ class MenuService {
         });
 
         return menu;
+    }
+
+    private formatMenus(
+        menus: (Menu & { children?: Menu[] })[]
+    ): (Menu & { children?: Menu[] })[] {
+        menus = menus.map((menu) => ({
+            ...menu,
+            children: [],
+        }));
+
+        const getChildren = (parentId: number | null): Menu[] => {
+            const children = menus.filter((menu) => menu.parentId === parentId);
+
+            return children;
+        };
+
+        return getChildren(null);
     }
 }
 
