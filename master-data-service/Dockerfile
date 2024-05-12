@@ -1,26 +1,22 @@
-FROM oven/bun:1 AS build
+FROM node:18 AS build
 
 WORKDIR /app
 
-COPY package.json .
-COPY bun.lockb .
+COPY package*.json .
 
-RUN bun install
+RUN npm install
 
 COPY . .
 
-RUN bun run build
-RUN bunx prisma generate --schema=/app/prisma/schema.prisma
+RUN npx prisma generate
+RUN npm run build
 
-FROM build AS production
+FROM build as production
 
-WORKDIR /app
-
-RUN bun install --production
-
+COPY --from=build /app/node_modules /app/node_modules
 COPY --from=build /app/dist /app/dist
 COPY --from=build /app/prisma /app/prisma
 COPY --from=build /app/package.json .
 
 EXPOSE 3000
-CMD ["bun", "run", "start"]
+CMD ["npm", "run", "start"]

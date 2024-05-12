@@ -1,3 +1,4 @@
+import "module-alias/register";
 import "reflect-metadata";
 import express, { type Express } from "express";
 import cors from "cors";
