@@ -92,7 +92,10 @@ class MenuService {
         const getChildren = (parentId: number | null): Menu[] => {
             const children = menus.filter((menu) => menu.parentId === parentId);
 
-            return children;
+            return children.map((menu) => ({
+                ...menu,
+                children: getChildren(menu.id),
+            }));
         };
 
         return getChildren(null);
