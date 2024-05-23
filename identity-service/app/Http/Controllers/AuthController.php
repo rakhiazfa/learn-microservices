@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SignInRequest;
-use App\Http\Resources\IdentityResource;
-use App\Models\PersonalAccessToken;
+use App\Http\Resources\UserResource;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -43,7 +40,7 @@ class AuthController extends Controller
         $user = $this->authService->user($request);
 
         return response()->json([
-            'user' => new IdentityResource($user),
+            'user' => new UserResource($user),
         ]);
     }
 
