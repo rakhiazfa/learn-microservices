@@ -10,6 +10,9 @@ export default {
             colors: {
                 dark: "#212121e6",
             },
+            boxShadow: {
+                xxs: "1.5px 1.5px 25px 1.5px rgba(0, 0, 0, 0.045)",
+            },
         },
     },
     plugins: [],
