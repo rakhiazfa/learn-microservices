@@ -11,7 +11,6 @@ use App\Models\PersonalAccessToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class AuthService
 {
@@ -56,8 +55,6 @@ class AuthService
 
     public function check(Request $request): bool
     {
-        Log::info($request->headers);
-
         $token = $request->bearerToken();
         $originalMethod = $request->header('X-Original-Method');
         $originalUri = $request->header('X-Original-Uri');
