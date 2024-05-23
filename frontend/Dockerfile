@@ -1,28 +1,20 @@
-FROM oven/bun:1 AS build
+FROM node:18-alpine as build
 
 WORKDIR /app
 
 COPY package.json .
-COPY bun.lockb .
 
-RUN bun install
+RUN npm install
 
 COPY . .
 
-RUN bun run build
-
-FROM build as prerelease
-
-COPY package.json .
-COPY bun.lockb .
-
-RUN bun install --frozen-lockfile --production
+RUN npm run build
 
 FROM nginx:stable-alpine AS production
 
 WORKDIR /app
 
-COPY --from=prerelease /app/node_modules /app/node_modules
+COPY --from=build /app/node_modules /app/node_modules
 COPY --from=build /app/dist /app/dist
 COPY --from=build /app/package.json .
 COPY default.conf /etc/nginx/conf.d/

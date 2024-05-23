@@ -1,0 +1,21 @@
+/* --------------------------------------------------------------------
+| Fonts
+-------------------------------------------------------------------- */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+/* --------------------------------------------------------------------
+| Tailwind CSS
+-------------------------------------------------------------------- */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+    body {
+        @apply text-sm text-dark font-inter font-normal antialiased;
+    }
+
+}

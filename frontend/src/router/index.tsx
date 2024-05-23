@@ -1,4 +1,5 @@
-import App from "@/layouts/app";
+import App from "@/components/layouts/app";
+import SignIn from "@/pages/auth/sign-in";
 import Home from "@/pages/home";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -10,6 +11,10 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <Home />,
+            },
+            {
+                path: "/auth/signin",
+                element: <SignIn />,
             },
         ],
     },
