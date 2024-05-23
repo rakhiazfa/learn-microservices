@@ -1,4 +1,4 @@
-FROM rakhiazfa/php-swoole:1.0.0
+FROM rakhiazfa/php-8.3:latest
 
 WORKDIR /var/www
 
