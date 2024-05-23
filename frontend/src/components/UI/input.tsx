@@ -45,7 +45,9 @@ const Input = (
                 placeholder={placeholder}
             />
             {error ? (
-                <span className="text-xs text-red-500 ml-1 mt-2">{error}</span>
+                <span className="block text-[0.7rem] text-red-500 ml-1 mt-1">
+                    {error}
+                </span>
             ) : null}
         </div>
     );
