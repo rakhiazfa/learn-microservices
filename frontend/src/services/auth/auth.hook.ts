@@ -43,6 +43,7 @@ export const useAuth = () => {
             await AuthService.signOut();
 
             Cookies.remove("ACCESS_TOKEN");
+            dispatch(setUser(null));
 
             return true;
         } catch (error: any) {
