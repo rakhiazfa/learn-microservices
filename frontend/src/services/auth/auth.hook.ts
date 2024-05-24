@@ -19,6 +19,7 @@ export const useAuth = () => {
             const data = await AuthService.signIn(payload);
 
             Cookies.set("ACCESS_TOKEN", data?.authorization?.token);
+            await fetchUser();
 
             return true;
         } catch (error: any) {
@@ -60,7 +61,6 @@ export const useAuth = () => {
 
         if (accessToken) {
             const { user } = await AuthService.fetchUser();
-
             dispatch(setUser(user));
         }
     };
