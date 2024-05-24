@@ -23,7 +23,7 @@
 @layer components {
 
     .app-container {
-        @apply w-full lg:max-w-[1024px] mx-auto px-5 md:px-7;
+        @apply w-full lg:max-w-[1180px] mx-auto px-5 md:px-7;
     }
 
 }
