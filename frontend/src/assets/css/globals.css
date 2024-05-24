@@ -19,3 +19,11 @@
     }
 
 }
+
+@layer components {
+
+    .app-container {
+        @apply w-full lg:max-w-[1024px] mx-auto px-5 md:px-7;
+    }
+
+}
