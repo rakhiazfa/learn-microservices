@@ -1,8 +1,8 @@
-import Button from "@/components/UI/button";
-import Input from "@/components/UI/input";
 import { useAuth } from "@/services/auth/auth.hook";
 import { SignInPayload } from "@/services/auth/auth.types";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Button } from "@nextui-org/button";
+import { Input } from "@nextui-org/input";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
@@ -22,7 +22,6 @@ const schema = yup
 
 const SignIn = () => {
     const navigate = useNavigate();
-
     const { signIn, loading, errors: authErrors } = useAuth();
     const {
         register,
@@ -35,6 +34,7 @@ const SignIn = () => {
     const onSubmit: SubmitHandler<SignInPayload> = async (
         data: SignInPayload
     ) => {
+        console.log(data);
         const isSuccess = await signIn(data);
 
         if (isSuccess) {
@@ -50,6 +50,11 @@ const SignIn = () => {
                     Selamat datang, silahkan masukan kredensial anda untuk
                     melanjutkan.
                 </p>
+                {authErrors?.unauthenticated ? (
+                    <span className="block text-xs text-red-500 mb-5">
+                        {authErrors?.unauthenticated}
+                    </span>
+                ) : null}
                 <form
                     onSubmit={handleSubmit(onSubmit)}
                     className="grid grid-cols-1 gap-y-5"
@@ -57,21 +62,26 @@ const SignIn = () => {
                     <Input
                         label="Email"
                         type="text"
-                        placeholder="Masukan alamat email anda . . ."
                         {...register("email")}
-                        error={
-                            errors.email?.message || authErrors?.unauthenticated
-                        }
+                        isInvalid={!!errors?.email}
+                        errorMessage={errors?.email?.message}
+                        variant="bordered"
                     />
                     <Input
                         label="Kata Sandi"
                         type="password"
-                        placeholder="Masukan kata sandi anda . . ."
                         {...register("password")}
-                        error={errors.password?.message}
+                        isInvalid={!!errors?.password}
+                        errorMessage={errors?.password?.message}
+                        variant="bordered"
                     />
                     <div className="flex justify-end mt-2">
-                        <Button type="submit" loading={loading}>
+                        <Button
+                            type="submit"
+                            size="sm"
+                            color="primary"
+                            disabled={loading}
+                        >
                             Sign In
                         </Button>
                     </div>
