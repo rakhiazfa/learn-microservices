@@ -34,7 +34,6 @@ const SignIn = () => {
     const onSubmit: SubmitHandler<SignInPayload> = async (
         data: SignInPayload
     ) => {
-        console.log(data);
         const isSuccess = await signIn(data);
 
         if (isSuccess) {
