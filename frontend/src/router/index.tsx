@@ -1,5 +1,5 @@
 import App from "@/components/layouts/app";
-import Auth from "@/components/middlewares/auth";
+import Default from "@/components/layouts/default";
 import Guest from "@/components/middlewares/guest";
 import SignIn from "@/pages/auth/sign-in";
 import Home from "@/pages/home";
@@ -10,12 +10,13 @@ const router = createBrowserRouter([
         element: <App />,
         children: [
             {
-                index: true,
-                element: <Home />,
-            },
-            {
-                element: <Auth />,
-                children: [],
+                element: <Default />,
+                children: [
+                    {
+                        index: true,
+                        element: <Home />,
+                    },
+                ],
             },
             {
                 element: <Guest />,
