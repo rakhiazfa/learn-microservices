@@ -44,7 +44,7 @@ const SignIn = () => {
 
     return (
         <div className="min-h-[525px] flex justify-center items-center">
-            <div className="w-[350px] bg-white border border-gray-300 shadow-xxs rounded-md px-7 py-10">
+            <div className="w-[350px] bg-white border border-gray-300 shadow-xxs rounded-md px-7 pt-10 pb-7">
                 <h2 className="text-xl font-semibold mb-5">Masuk</h2>
                 <p className="text-[0.8rem] text-gray-600 mb-5">
                     Selamat datang, silahkan masukan kredensial anda untuk
@@ -70,7 +70,7 @@ const SignIn = () => {
                         {...register("password")}
                         error={errors.password?.message}
                     />
-                    <div className="flex justify-end">
+                    <div className="flex justify-end mt-2">
                         <Button type="submit" loading={loading}>
                             Sign In
                         </Button>
