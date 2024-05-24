@@ -26,7 +26,7 @@ const Topbar = () => {
 
     return (
         <header className="relative w-full flex items-center h-[67.5px] border-b border-gray-300 shadow-xxs">
-            <div className="w-full flex justify-between items-center px-5">
+            <div className="app-container w-full flex justify-between items-center">
                 <div>
                     <span className="text-xl font-semibold tracking-wide">
                         Merdekalio
